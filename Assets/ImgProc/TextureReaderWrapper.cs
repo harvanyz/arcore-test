@@ -3,6 +3,7 @@ using UnityEngine;
 using GoogleARCore;
 using GoogleARCore.Examples.ComputerVision;
 
+
 public class TextureReaderWrapper : MonoBehaviour {
     /// <summary>
     /// 取得するTextureのサイズの、カメラ画像に対する割合
@@ -30,9 +31,10 @@ public class TextureReaderWrapper : MonoBehaviour {
     private bool setFrameSizeToTextureReader = false;
     public void Awake()
     {
-        // カメラ画像取得時に呼ばれるコールバック関数を定義
-        TextureReader = GetComponent<TextureReader>();
-        TextureReader.OnImageAvailableCallback += OnImageAvailableCallbackFunc;
+        // // カメラ画像取得時に呼ばれるコールバック関数を定義
+        // TextureReader = GetComponent<TextureReader>();
+        // TextureReader.OnImageAvailableCallback += OnImageAvailableCallbackFunc;
+        // _ShowAndroidToastMessage("KO KO DA!");
     }
 
     private void OnImageAvailableCallbackFunc(TextureReaderApi.ImageFormatType format, int width, int height, IntPtr pixelBuffer, int bufferSize)
@@ -42,13 +44,17 @@ public class TextureReaderWrapper : MonoBehaviour {
         this.height = height;
         this.pixelBuffer = pixelBuffer;
         this.bufferSize = bufferSize;
-        //_ShowAndroidToastMessage(bufferSize);
+        _ShowAndroidToastMessage(bufferSize.ToString());
     }
 
 
     // Use this for initialization
     void Start()
     {
+        // カメラ画像取得時に呼ばれるコールバック関数を定義
+        TextureReader = GetComponent<TextureReader>();
+        TextureReader.OnImageAvailableCallback += OnImageAvailableCallbackFunc;
+        // _ShowAndroidToastMessage("KO KO DA!");
     }
 
     // Update is called once per frame
@@ -69,6 +75,8 @@ public class TextureReaderWrapper : MonoBehaviour {
                 TextureReader.Apply();
 
                 setFrameSizeToTextureReader = true;
+
+                //_ShowAndroidToastMessage(TextureReader.ImageWidth.ToString());
             }
         }
     }
@@ -77,6 +85,12 @@ public class TextureReaderWrapper : MonoBehaviour {
     {
         // TextureReaderが取得した画像データのポインタからデータを取得
         byte[] data = new byte[bufferSize];
+
+        // _ShowAndroidToastMessage(bufferSize.ToString());
+        
+        _ShowAndroidToastMessage(width.ToString());
+
+
         // System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, data, 0, bufferSize);
         // // 向きが270回転と反転しているので補正する
         // byte[] correctedData = Rotate90AndFlip(data, width, height, format == TextureReaderApi.ImageFormatType.ImageFormatGrayscale);
@@ -89,6 +103,8 @@ public class TextureReaderWrapper : MonoBehaviour {
         // }
 
         //return true;
+
+        //_ShowAndroidToastMessage("Test dayo");
 
 
         if (bufferSize == 0){
@@ -165,4 +181,23 @@ public class TextureReaderWrapper : MonoBehaviour {
 
         return newImg;
     }
+
+    private void _ShowAndroidToastMessage(string message)
+        {
+            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject unityActivity =
+                unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+            if (unityActivity != null)
+            {
+                AndroidJavaClass toastClass = new AndroidJavaClass("android.widget.Toast");
+                unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+                {
+                    AndroidJavaObject toastObject =
+                        toastClass.CallStatic<AndroidJavaObject>(
+                            "makeText", unityActivity, message, 0);
+                    toastObject.Call("show");
+                }));
+            }
+        }
 }

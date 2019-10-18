@@ -69,6 +69,7 @@ namespace GoogleARCore.Examples.HelloAR
         private bool m_IsQuitting = false;
 
         public GameObject ctr;
+        TextureReaderWrapper trw = null;
 
         /// <summary>
         /// The Unity Awake() method.
@@ -78,8 +79,10 @@ namespace GoogleARCore.Examples.HelloAR
             // Enable ARCore to target 60fps camera capture frame rate on supported devices.
             // Note, Application.targetFrameRate is ignored when QualitySettings.vSyncCount != 0.
             Application.targetFrameRate = 60;
+        }
 
-            
+        void start(){
+            //trw = this.ctr.GetComponent<TextureReaderWrapper>();
         }
 
             
@@ -112,11 +115,9 @@ namespace GoogleARCore.Examples.HelloAR
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
 
-                TextureReaderWrapper trw = ctr.GetComponent<TextureReaderWrapper>();
-                
-
                 // non red will return
                 if (trw.isNonRed(touch.position.x, touch.position.y)){
+                    //_ShowAndroidToastMessage("bakame");
                     return;
                 }
 
