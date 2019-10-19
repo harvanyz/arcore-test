@@ -79,10 +79,12 @@ namespace GoogleARCore.Examples.HelloAR
             // Enable ARCore to target 60fps camera capture frame rate on supported devices.
             // Note, Application.targetFrameRate is ignored when QualitySettings.vSyncCount != 0.
             Application.targetFrameRate = 60;
+            //_ShowAndroidToastMessage("SHO KI KA awake");
         }
 
-        void start(){
-            //trw = this.ctr.GetComponent<TextureReaderWrapper>();
+        void Start(){
+            trw = this.ctr.GetComponent<TextureReaderWrapper>();
+            //_ShowAndroidToastMessage("SHO KI KA start");
         }
 
             
@@ -115,11 +117,12 @@ namespace GoogleARCore.Examples.HelloAR
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
 
-                // non red will return
-                if (trw.isNonRed(touch.position.x, touch.position.y)){
+                // red will return
+                if (!trw.isRed(touch.position.x, touch.position.y)){
                     //_ShowAndroidToastMessage("bakame");
                     return;
                 }
+                //_ShowAndroidToastMessage("baka da!!!");
 
 
                 // Use hit pose and camera pose to check if hittest is from the

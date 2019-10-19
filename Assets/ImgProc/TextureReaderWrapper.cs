@@ -44,7 +44,8 @@ public class TextureReaderWrapper : MonoBehaviour {
         this.height = height;
         this.pixelBuffer = pixelBuffer;
         this.bufferSize = bufferSize;
-        _ShowAndroidToastMessage(bufferSize.ToString());
+        //_ShowAndroidToastMessage(bufferSize.ToString());
+        //_ShowAndroidToastMessage(pixelBuffer.ToString());
     }
 
 
@@ -81,38 +82,41 @@ public class TextureReaderWrapper : MonoBehaviour {
         }
     }
 
-    public bool isNonRed(float x, float y)
+    public bool isRed(float x, float y)
     {
         // TextureReaderが取得した画像データのポインタからデータを取得
         byte[] data = new byte[bufferSize];
 
-        // _ShowAndroidToastMessage(bufferSize.ToString());
+        //_ShowAndroidToastMessage(bufferSize.ToString());
+        _ShowAndroidToastMessage(pixelBuffer.ToString());
         
-        _ShowAndroidToastMessage(width.ToString());
+        // _ShowAndroidToastMessage(width.ToString());
 
 
-        // System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, data, 0, bufferSize);
-        // // 向きが270回転と反転しているので補正する
-        // byte[] correctedData = Rotate90AndFlip(data, width, height, format == TextureReaderApi.ImageFormatType.ImageFormatGrayscale);
+        System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, data, 0, bufferSize);
+        //_ShowAndroidToastMessage(pixelBuffer.ToString());
+        // 向きが270回転と反転しているので補正する
+        byte[] correctedData = Rotate90AndFlip(data, width, height, format == TextureReaderApi.ImageFormatType.ImageFormatGrayscale);
         
-        // int idx = ((int)y * width + (int)x) * 4;
+        int idx = ((int)y * width + (int)x) * 4;
 
-        // int v = correctedData[idx];
-        // if (v > 150){
-        //     return false;
-        // }
+        int v = correctedData[idx];
+        _ShowAndroidToastMessage(v.ToString());
+        if (v > 150){
+            return true;
+        }
 
-        //return true;
+        return false;
 
         //_ShowAndroidToastMessage("Test dayo");
 
 
-        if (bufferSize == 0){
-            return false;
-        }
-        else{
-            return true;
-        }
+        // if (bufferSize == 0){
+        //     return false;
+        // }
+        // else{
+        //     return true;
+        // }
 
 
         //return false;
