@@ -113,9 +113,15 @@ namespace GoogleARCore.Examples.HelloAR
             TrackableHit hit;
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
                 TrackableHitFlags.FeaturePointWithSurfaceNormal;
+            
+            // if (!trw.isRed(touch.position.x, touch.position.y)){
+            //         //_ShowAndroidToastMessage("bakame");
+            //         return;
+            // }
 
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
+                //_ShowAndroidToastMessage("(" + touch.position.x.ToString() + ", " + touch.position.y.ToString() + ")");
 
                 // red will return
                 if (!trw.isRed(touch.position.x, touch.position.y)){

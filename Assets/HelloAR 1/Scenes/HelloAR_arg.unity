@@ -314,7 +314,7 @@ MonoBehaviour:
   ImageWidth: 1920
   ImageHeight: 1080
   ImageSampleMode: 1
-  ImageFormat: 1
+  ImageFormat: 0
 --- !u!4 &677773812
 Transform:
   m_ObjectHideFlags: 0

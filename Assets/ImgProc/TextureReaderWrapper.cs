@@ -88,21 +88,41 @@ public class TextureReaderWrapper : MonoBehaviour {
         byte[] data = new byte[bufferSize];
 
         //_ShowAndroidToastMessage(bufferSize.ToString());
-        _ShowAndroidToastMessage(pixelBuffer.ToString());
-        
-        // _ShowAndroidToastMessage(width.ToString());
-
+        //_ShowAndroidToastMessage(pixelBuffer.ToString());
 
         System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, data, 0, bufferSize);
-        //_ShowAndroidToastMessage(pixelBuffer.ToString());
+
+
         // 向きが270回転と反転しているので補正する
         byte[] correctedData = Rotate90AndFlip(data, width, height, format == TextureReaderApi.ImageFormatType.ImageFormatGrayscale);
         
-        int idx = ((int)y * width + (int)x) * 4;
+        //_ShowAndroidToastMessage("(" + x.ToString() + ", " + y.ToString() + ")");
+
+        //int idx = ((int)y * width + (int)x) * 4;
+        int x_arg = (int)x / 4;
+        int y_arg = (int)y / 4;
+        int ch = 4;
+        int c = 0;
+        int idx = ((int)y_arg * width * ch) + ((int)x_arg * ch) + c;
 
         int v = correctedData[idx];
-        _ShowAndroidToastMessage(v.ToString());
-        if (v > 150){
+        int r = correctedData[idx + 0];
+        int g = correctedData[idx + 1];
+        int b = correctedData[idx + 2];
+        
+        int tmp_v = width * height * ch;
+        //_ShowAndroidToastMessage("(" + r.ToString() + ", " + g.ToString() + ", " + b.ToString() + ")");
+        //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + idx.ToString() + "/" + tmp_v.ToString() + "), " + v.ToString());
+        //_ShowAndroidToastMessage(v.ToString());
+        //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + idx.ToString() + "/" + tmp_v.ToString() + "), " + v.ToString());
+        //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + width.ToString() + ", " + height.ToString() + "), " + v.ToString());
+
+
+        int diff_rg = r - b;
+        int diff_rb = r - g;
+
+
+        if ((diff_rb > 50) & (diff_rg > 50)){
             return true;
         }
 
@@ -154,6 +174,8 @@ public class TextureReaderWrapper : MonoBehaviour {
         int srcChannels = isGrayscale ? 1 : 4;
         int dstChannels = 4; //出力は常にRGBA32にする
         byte[] newImg = new byte[width * height * dstChannels];
+        //int tmp_vv = width * height * dstChannels;
+        //_ShowAndroidToastMessage(tmp_vv.ToString());
 
         for (int i = 0; i < height; i++)
         {
