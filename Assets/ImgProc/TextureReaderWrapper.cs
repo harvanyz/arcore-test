@@ -99,25 +99,28 @@ public class TextureReaderWrapper : MonoBehaviour {
         //_ShowAndroidToastMessage("(" + x.ToString() + ", " + y.ToString() + ")");
 
         //int idx = ((int)y * width + (int)x) * 4;
-        int x_arg = (int)x / 4;
-        int y_arg = (int)y / 4;
+        int x_arg = (int)(x / 2.25);
+        int y_arg = (int)(y / 3);
+        int w_arg = height;
+        int h_arg = width;
         int ch = 4;
         int c = 0;
         // ここ、w と h が逆か？
-        int idx = ((int)y_arg * width * ch) + ((int)x_arg * ch) + c;
+        int idx = (y_arg * w_arg * ch) + (x_arg * ch) + c;
 
         int v = correctedData[idx];
         int r = correctedData[idx + 0];
         int g = correctedData[idx + 1];
         int b = correctedData[idx + 2];
         
-        int tmp_v = width * height * ch;
-        //_ShowAndroidToastMessage("(" + r.ToString() + ", " + g.ToString() + ", " + b.ToString() + ")");
+        int tmp_v = w_arg * h_arg * ch;
+        _ShowAndroidToastMessage("(" + r.ToString() + ", " + g.ToString() + ", " + b.ToString() + ")");
         //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + idx.ToString() + "/" + tmp_v.ToString() + "), " + v.ToString());
         //_ShowAndroidToastMessage(v.ToString());
         //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + idx.ToString() + "/" + tmp_v.ToString() + "), " + v.ToString());
-        //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + width.ToString() + ", " + height.ToString() + "), " + v.ToString());
-
+        //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + w_arg.ToString() + ", " + h_arg.ToString() + "), " + v.ToString());
+        //_ShowAndroidToastMessage("(" + x_arg.ToString() + ", " + y_arg.ToString() + "), (" + x.ToString() + ", " + y.ToString() + "), ");
+        
 
         int diff_rg = r - b;
         int diff_rb = r - g;
@@ -128,19 +131,6 @@ public class TextureReaderWrapper : MonoBehaviour {
         }
 
         return false;
-
-        //_ShowAndroidToastMessage("Test dayo");
-
-
-        // if (bufferSize == 0){
-        //     return false;
-        // }
-        // else{
-        //     return true;
-        // }
-
-
-        //return false;
     }
 
 
