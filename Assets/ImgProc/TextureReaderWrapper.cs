@@ -103,6 +103,7 @@ public class TextureReaderWrapper : MonoBehaviour {
         int y_arg = (int)y / 4;
         int ch = 4;
         int c = 0;
+        // ここ、w と h が逆か？
         int idx = ((int)y_arg * width * ch) + ((int)x_arg * ch) + c;
 
         int v = correctedData[idx];
